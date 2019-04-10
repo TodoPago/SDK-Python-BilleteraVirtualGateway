@@ -5,7 +5,7 @@ sys.path.append(os.path.abspath(".."))
 from lib.todopagoconnectorbvg import TodoPagoConnectorBvg
 
 j_header_http = {
-	'Authorization':'TODOPAGO 3785cdc853ca4248a62a0f6cbb823e1d'
+	'Authorization':'TODOPAGO 86333EFD8AD0C71CEA3BF06D7BDEF90D'
 }
 
 bvg = TodoPagoConnectorBvg(j_header_http, "test")
@@ -13,8 +13,8 @@ bvg = TodoPagoConnectorBvg(j_header_http, "test")
 print('--------------------- GET CREDENTIALS ---------------------')
 
 UserAccount = {
-    'USUARIO' : "usertodopago@gmail.com", 
-    'CLAVE' : "password"
+    'USUARIO' : "guillermodlucero@gmail.com", 
+    'CLAVE' : "1970Stk!"
 }
 
 responseGetCredential = bvg.getCredentials(UserAccount)

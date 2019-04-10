@@ -1,10 +1,9 @@
 import time 
 import json
 import json, sys, os
-sys.path.append(os.path.abspath(".."))
-from lib.todopagoconnectorbvg import TodoPagoConnectorBvg
-from lib.transaction import *
-from lib.push import *
+sys.path.insert(0,'../lib')
+from todopagoconnectorbvg import TodoPagoConnectorBvg
+from push import *
 
 j_header_http = {
 'Authorization':'TODOPAGO'
@@ -14,7 +13,7 @@ bvg = TodoPagoConnectorBvg(j_header_http, "test")
 
 generalData = {}
 generalData["merchant"] = 41702
-generalData["security"] = "TODOPAGO 8A891C0676A25FBF052D1C2FFBC82DEE"
+generalData["security"] = "TODOPAGO 86333EFD8AD0C71CEA3BF06D7BDEF90D"
 generalData["remoteIpAddress"] = "192.168.11.87"	
 generalData["publicRequestKey"] = "9541ea16-32bb-420a-8409-17609883bebc"
 generalData["operationName"] = "Compra"

@@ -20,7 +20,7 @@ generalData["channel"] = "BVTP"
 
 operationData = {}
 operationData["operationType"] = "Compra"
-operationData["operationID"] = "1234"
+operationData["operationID"] = "310517_01"
 operationData["currencyCode"] = "032"
 operationData["concept"] = "compra"
 operationData["amount"] = "999,99"

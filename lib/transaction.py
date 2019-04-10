@@ -65,12 +65,12 @@ class Transaction:
 		if 'currencyCode' not in self.operationData or self.operationData["currencyCode"] is '':
 			raise Exception('Falta dato requerido "currencyCode"')
 
-
+		
 		if 'amount' not in self.operationData or self.operationData["amount"] is '':
 			raise Exception('Falta dato requerido "amount"')	
-		elif not re.match('^[0-9]+(\,[0-9]{1,2})?$', self.operationData["amount"]):
+		elif not re.match('^[0-9]+(\,[0-9]{1,2})?$', self.operationData["amount"]):	
 			raise Exception('El formato de "amount" no es valido, no include decimales o no esta separado por coma')	
-
+			
 
 		if 'availablePaymentMethods' in self.operationData and not all(isinstance(item, int) for item in self.operationData["availablePaymentMethods"]):
 			raise Exception('El array "availablePaymentMethods" tiene que tener solo valores enteros')	

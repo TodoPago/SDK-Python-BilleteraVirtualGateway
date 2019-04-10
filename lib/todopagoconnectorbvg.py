@@ -21,13 +21,13 @@ def deprecated(func):
 
 	return newFunc
 
-ver= '1.1.0'
+ver= '1.2.0'
 restAppend = 'api/'
 
 end_points_base = {
-	"test" : "https://developers.todopago.com.ar/",
+	"test" : "https://portal.integration.todopago.com.ar/",
 	"prod" : "https://apis.todopago.com.ar/"
-}	
+}
 
 keys_order_GBRDT = (
 	'MERCHANT',
@@ -51,14 +51,8 @@ class TodoPagoConnectorBvg:
 		#mode deberia contener un solo valor, que seria "test" o "prod", pero para mantener retrocompatibilidad se aceptara que manden el wsdl (este se ignorara) y el endpoint
 		self._http_header = http_header
 
-		if(mode == "test"):
-			end_point = end_points_base[mode]
-		else:
-			self._wsdls = mode[0]
-			end_point = mode[mode]
-
-		self._end_point = end_point	
-		self._end_point_rest_root = end_point + restAppend
+		self._end_point = end_points_base[mode]	
+		self._end_point_rest_root = end_points_base[mode] + restAppend
 		
 	
 	def discover(self):
@@ -78,6 +72,14 @@ class TodoPagoConnectorBvg:
 		push = bvg.getNotificationPush(push)
 
 		return push
+
+	def loginbvtp(self, loginbvtp):
+		bvg = BVG(self._end_point)
+		loginbvtp = bvg.getLoginBvtp(loginbvtp)
+
+		return loginbvtp
+
+		
 
 	################################################################
 	###Methodo publico que devuelve las credenciales###############

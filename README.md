@@ -12,6 +12,7 @@ Todo Pago - módulo SDK-Python para conexión con gateway de pago
       + [Diagrama de secuencia](#bvg-uml)
       + [Discover](#bvg-discover)
       + [Transaction](#bvg-transaction)
+      + [Formulario Billetera](#formbilletera)
       + [Notificacion Push](#bvg-push)
       + [Obtener Credenciales](#credenciales)
 
@@ -43,7 +44,7 @@ Todos los métodos devuelven la respuesta en forma de diccionario.
 - crear un JSON con los http header suministrados por todo pago
 ```python
 j_header_http = {
-    "Authorization":"PRISMA f3d8b72c94ab4a06be2ef7c95490f7d3"
+    "Authorization":"PRISMA 86333EFD8AD0C71CEA3BF06D7BDEF90D"
 }
 ```
 - crear una instancia de la clase TodoPago para hacer pruebas en el ambiente developers se pasa como modo "test" y para producción "prod".
@@ -67,7 +68,7 @@ bvg = TodoPagoConnectorBvg(j_header_http, 'test')
 Para acceder al servicio, los vendedores podrán adherirse en el sitio exclusivo de Botón o a través de su ejecutivo comercial. En estos procesos se generará el usuario y clave para este servicio.
 
 <a name="bvg-discover"></a>
-##### Discover
+### Discover
 
 <p>El método discover permite conocer los medios de pago disponibles</p>
 
@@ -101,7 +102,7 @@ idBanco      | Id del banco           | numérico     | 10
 nombreBanco  | Nombre del banco       | string       | "Banco Ciudad"
 
 <a name="bvg-transaction"></a>
-##### Transaction
+### Transaction
 
 <p>El método transaction permite registrar una transacción.</p>
 
@@ -206,8 +207,98 @@ print(transaction)
 <tr><td>bankId</td><td>String</td><td>Id del banco seleccionado</td></tr>
 </table>
 
+
+
+<a name="formbilletera"></a>
+### Formulario Billetera
+
+Para abrir el formulario se debe agregar un archivo javascript provisto por TodoPago e instanciar la API Javascript tal cual se muestra en el ejemplo correspondiente.
+
+##### Endpoints:
++ Ambientes de pruebas: https://forms.integration.todopago.com.ar/resources/TPBSAForm.js
++ Ambiente Produccion: https://forms.todopago.com.ar/resources/TPBSAForm.min.js
+
+```html
+
+<html>
+    <head>
+        <title>Formulario de pago TP</title>
+        <meta charset="UTF-8">
+        <script src="https://forms.integration.todopago.com.ar/resources/TPBSAForm.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <script type="text/javascript">
+        </script>
+    </head>
+	<body>
+	    <script>
+		var success = function(data) {
+		    console.log(data);
+		};
+		var error = function(data) {
+		    console.log(data);
+		};
+		var validation = function(data) {
+		    console.log(data);
+		}
+		window.TPFORMAPI.hybridForm.initBSA({
+		    publicKey: "requestpublickey",
+		    merchantAccountId: "merchant",
+		    callbackCustomSuccessFunction: "success",
+		    callbackCustomErrorFunction: "error",
+		    callbackValidationErrorFunction: "validation"
+		});
+	    </script>
+	</body>
+</html>
+
+```
+
+![Formulario de pago](https://raw.githubusercontent.com/TodoPago/imagenes/master/bsa/formulario-bsa_medios_pago.png)
+
+##### Respuesta
+
+Si la compra fue aprobada el formulario devolverá un JSON con la siguiente estructura.
+
+```C#
+
+{
+"ResultCode":1,
+"ResultMessage":"El medio de pago se selecciono correctamente",
+"Action":"accion"
+"SessionId":"DB37611F-6510-2423-1223-1C4F76F04A0D",
+"IdCuenta":"41703",
+"Token":"4507991692027787",
+"MerchantAccountId": "46523",
+"BankId":"17",
+"CardNumberBin": 450799,
+"FourLastDigitsOfCardNumber":"7783",
+"PaymentMethodID":"42",
+"SecurityCodeCheck": "false",
+"SelectorClaveFlag": "1",
+"TokenDate": "20180427",
+"TokenizationFlag": "false",
+"DatosAdicionales": {
+	"tipoDocumento": "DNI",
+	"numeroDocumento": "45998745",
+	"generoCuentaCompradora": "M",
+	"nombre": "Comprador",
+	"apellido": "BSA",
+  	"permiteObtenerMP": false
+},
+"VOLATILE_ENCRYPTED_DATA": "YRfrWggICAggsF0nR6ViuAgWsPr5ouR5knIbPtkN+yntd7G6FzN/Xb8zt6+QHnoxmpTraKphZVHvxA=="
+"BSA":true
+} 
+
+```
+
+**Nota**: Los campos queridos por decidir son el "Token" y "VOLATILE_ENCRYPTED_DATA".
+
+
+
+
+
 <a name="bvg-push"></a>
-##### Notificacion Push
+### Notificacion Push
 
 <p>El método pushnotify permite registrar la finalización de una transacción.</p>
 
@@ -235,7 +326,7 @@ bvg = TodoPagoConnectorBvg(j_header_http, "test")
 
 generalData = {}
 generalData["merchant"] = 41702
-generalData["security"] = "TODOPAGO 8A891C0676A25FBF052D1C2FFBC82DEE"
+generalData["security"] = "TODOPAGO 86333EFD8AD0C71CEA3BF06D7BDEF90D"
 generalData["remoteIpAddress"] = "192.168.11.87"  
 generalData["publicRequestKey"] = "2869c611-a55a-49d5-9be2-3137c95321zz"
 generalData["operationName"] = "Compra"
@@ -315,9 +406,11 @@ print(transaction.getResponse())
 
 
 <a name="credenciales"></a>
-#### Obtener credenciales
+### Obtener credenciales
 El SDK permite obtener las credenciales "Authentification", "MerchandId" y "Security" de la cuenta de Todo Pago, ingresando el usuario y contraseña.<br>
 Esta funcionalidad es útil para obtener los parámetros de configuración dentro de la implementación.
+
+![devolucion parcial](https://raw.githubusercontent.com/TodoPago/imagenes/master/README.img/secuencia-credenciales.jpg)
 
 - Crear una instancia de la clase User:
 ```python

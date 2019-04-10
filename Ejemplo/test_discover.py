@@ -3,7 +3,7 @@ sys.path.append(os.path.abspath(".."))
 from lib.todopagoconnectorbvg import TodoPagoConnectorBvg
 
 j_header_http = {
-'Authorization':'TODOPAGO ba8821a62ef8431db87558f545674533'
+'Authorization':'TODOPAGO 86333EFD8AD0C71CEA3BF06D7BDEF90D'
 }
 
 bvg = TodoPagoConnectorBvg(j_header_http, "test")
